@@ -1,6 +1,7 @@
 // product-item.js
 // @author: Yichen Han
 // @data:   Feb 10 2020
+// @url :   http://127.0.0.1:5500/index.html
 
 class ProductItem extends HTMLElement {
   
