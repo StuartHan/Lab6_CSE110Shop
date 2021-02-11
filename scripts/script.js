@@ -1,39 +1,29 @@
-// Script.js
-// @author Yichen Han
-// @date  : Feb 10 2020
+// script.js
+// @author: Yichen Han
+// @data:   Feb 10 2020
 
-/* Gloval Vars */
 var localStorage = window.localStorage;
-var productList = document.getElementById('product-list');
+var cart = new Set();
+var cartCount = document.getElementById('cart-count');
 
-/* Functions:
-     addEventListener
-   Vars:
-     rawProdArr = raw product array: an array of fetched JS objs
-     product    = HTMLElement, represent a product
-*/
 window.addEventListener('DOMContentLoaded', () => {
-  // PART 1,2: If storagy is empty, fetch and construct. Otherwise, directly construct.
-  fetch('https://fakestoreapi.com/products')
-    .then(response => response.json())
-    .then
-    (rawProdArr => {
-      if (localStorage.getItem('products') != null) { // fetch array
-          localStorage.setItem('products', JSON.stringify(rawProdArr))}
+  if (!localStorage.getItem("itmes")){
+    fetch('https://fakestoreapi.com/products')
+      .then(resp => resp.json())
+      .then(data => localStorage.setItem('items', JSON.stringify(data)));
+  }
+  let items = JSON.parse (localStorage.getItem('items'));
+      cart = new Set(JSON.parse(localStorage.getItem("Cart")));
+  let prods = document.getElementById ('product-list');
 
-      // construct elements
-      for (let i = 0; i < rawProdArr.length; i++ ) {
-        let title = rawProdArr[i].title;
-        let image = rawProdArr[i].image;
-        let price = rawProdArr[i].price;
-        let id    = rawProdArr[i].id;
-        // call product constructor to construct a raw element
-        let product = productList.appendChild(new ProductItem(title, image, price));
-        // update values in element
-        //product.title               = title;
-        //product.setAttribute('src'  , image);
-        //product.setAttribute('price', price);
-        product.setAttribute('id'   , id);
-      }
-    })
+  for (let i = 0; i < items.length; i++){
+    let product = prods.appendChild (document.createElement('product-item'));
+        product.setAttribute('src'  , items[i].image);
+        product.setAttribute('title', items[i].title);
+        product.setAttribute('price', items[i].price);
+        product.setAttribute('id'   , items[i].id   );
+
+    if(cart.has(''+(items[i].id))) {product.cartButton();}
+  }
+  cartCount.innerHTML = cart.size;
 });
