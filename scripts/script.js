@@ -7,24 +7,39 @@ var localStorage = window.localStorage;
 var cart = new Set();
 var cartCount = document.getElementById('cart-count');
 
+
+
 window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem("itmes") == null){
+  // If items are not fetched, fetch and load
+  if (localStorage.getItem('items') == null){
     fetch('https://fakestoreapi.com/products')
       .then(resp => resp.json())
-      .then(data => localStorage.setItem('items', JSON.stringify(data)));
+      .then(data => {
+        localStorage.setItem('items', JSON.stringify(data));
+        loadProds ();
+      });
   }
-  let items = JSON.parse (localStorage.getItem('items'));
-      cart  = new Set(JSON.parse(localStorage.getItem("Cart")));
-  let prods = document.getElementById ('product-list');
+  // Otherwise, directly load
+  else {
+    loadProds ();
+  }
+  cartCount.innerHTML = cart.size;
+});
 
-  for (let i = 0; i < ((items!=null) ? items.length : 0); i++){
-    let product = prods.appendChild (document.createElement('product-item'));
+
+
+function loadProds() {
+  var items = JSON.parse (localStorage.getItem('items'));
+      cart  = new Set(JSON.parse(localStorage.getItem("Cart")));
+  var prods = document.getElementById ('product-list');
+
+  for (let i = 0; i < items.length; i++){
+    let product = prods.appendChild (document.createElement('product-item'));//alert("Construct");
         product.setAttribute('src'  , items[i].image);
         product.setAttribute('title', items[i].title);
         product.setAttribute('price', items[i].price);
         product.setAttribute('id'   , items[i].id   );
-
+    
     if(cart.has(''+(items[i].id))) {product.cartButton();}
   }
-  cartCount.innerHTML = cart.size;
-});
+}
