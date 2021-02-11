@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
       cart = new Set(JSON.parse(localStorage.getItem("Cart")));
   let prods = document.getElementById ('product-list');
 
-  for (let i = 0; i < items.length; i++){
+  for (let i = 0; i < (items? items.length : 0); i++){
     let product = prods.appendChild (document.createElement('product-item'));
         product.setAttribute('src'  , items[i].image);
         product.setAttribute('title', items[i].title);
