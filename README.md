@@ -1,4 +1,3 @@
 # Lab6_CSE110Shop
 https://stuarthan.github.io/Lab6_CSE110Shop/  
-This is a group project of: **Yichen Han** & **Ruisen Huang**  
-Welcome to our CSE110 online shop!
+Welcome to Yichen Han's CSE110 online shop!
